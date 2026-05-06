@@ -263,6 +263,14 @@ export default function Index() {
           ))}
         </div>
 
+        <a
+          href="/catalog-pdf"
+          target="_blank"
+          className="hidden md:block px-4 py-2 font-body text-xs tracking-widest uppercase transition-all mr-1"
+          style={{ border: "1px solid rgba(201,169,110,0.35)", color: "var(--muted-foreground)", textDecoration: "none" }}
+        >
+          PDF каталог
+        </a>
         <button
           onClick={() => scrollTo("Контакты")}
           className="hidden md:block px-6 py-2 font-body text-xs tracking-widest uppercase transition-all"
