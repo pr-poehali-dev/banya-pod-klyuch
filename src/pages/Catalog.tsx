@@ -344,115 +344,188 @@ function ComplectPage({ type }: { type: "suhoy" | "usadka" }) {
   );
 }
 
+function PageFooter() {
+  return (
+    <div style={{ position: "absolute", bottom: 10, left: 14, right: 14, borderTop: "1px solid #e0d8cc", paddingTop: 8, display: "flex", justifyContent: "space-between", fontSize: 8.5, color: "#999" }}>
+      <span>БаняПро — Строительство бань под ключ</span>
+      <span>info@banyapro.ru · +7 (800) 000-00-00</span>
+    </div>
+  );
+}
+
 function BanyaPage({
   banya,
   section,
   pageNum,
   srcImg,
+  complect,
+  dopoln,
 }: {
   banya: { size: string; img: string; imgFocus: string; description: string };
   section: string;
   pageNum: number;
   srcImg: string;
+  complect: string[];
+  dopoln: string[];
 }) {
+  const isSuhoy = section.includes("сухого") || section.includes("Сухой");
+
   return (
-    <div style={PAGE_STYLE}>
-      {/* Header strip */}
-      <div style={{ background: "#2a2a2a", margin: "-14mm -14mm 0 -14mm", padding: "8mm 14mm 8mm", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-        <div>
-          <div style={{ fontSize: 8.5, letterSpacing: 3, color: "#C9A96E", textTransform: "uppercase", marginBottom: 4 }}>
-            {section}
+    <>
+      {/* ── Страница 1: Фото + характеристики + чертёж ── */}
+      <div style={PAGE_STYLE}>
+        {/* Header */}
+        <div style={{ background: "#2a2a2a", margin: "-14mm -14mm 0 -14mm", padding: "7mm 14mm 7mm", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <div>
+            <div style={{ fontSize: 8, letterSpacing: 3, color: "#C9A96E", textTransform: "uppercase", marginBottom: 3 }}>{section}</div>
+            <div style={{ fontFamily: "'Cormorant', 'Georgia', serif", fontSize: 28, fontWeight: 600, color: "#fff" }}>
+              Баня {banya.size}
+            </div>
           </div>
-          <div style={{ fontFamily: "'Cormorant', 'Georgia', serif", fontSize: 28, fontWeight: 600, color: "#fff" }}>
-            Баня {banya.size}
+          <div style={{ textAlign: "right" }}>
+            <div style={{ fontSize: 8, color: "#aaa", marginBottom: 2 }}>Стр.</div>
+            <div style={{ fontSize: 22, fontWeight: 700, color: "#C9A96E" }}>{String(pageNum).padStart(2, "0")}</div>
           </div>
         </div>
-        <div style={{ textAlign: "right" }}>
-          <div style={{ fontSize: 8, color: "#aaa", marginBottom: 2 }}>Страница</div>
-          <div style={{ fontSize: 22, fontWeight: 700, color: "#C9A96E" }}>{String(pageNum).padStart(2, "0")}</div>
-        </div>
-      </div>
 
-      {/* Main photo */}
-      <div style={{ margin: "10px -14mm 0", height: 145, overflow: "hidden", position: "relative" }}>
-        <img src={srcImg} alt={`Баня ${banya.size}`} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 30%" }} />
-        <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, background: "linear-gradient(transparent, rgba(0,0,0,0.5))", height: 50 }} />
+        {/* Main photo */}
+        <div style={{ margin: "10px -14mm 0", height: 150, overflow: "hidden", position: "relative" }}>
+          <img src={srcImg} alt={`Баня ${banya.size}`} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 30%" }} />
+          <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, background: "linear-gradient(transparent, rgba(0,0,0,0.55))", height: 50 }} />
+          <div style={{ position: "absolute", bottom: 8, left: 14, background: "#C9A96E", color: "#1a1a1a", fontSize: 10, fontWeight: 700, padding: "3px 10px", letterSpacing: 1 }}>
+            РАЗМЕР: {banya.size}
+          </div>
+        </div>
+
+        {/* Description + specs */}
+        <div style={{ marginTop: 10 }}>
+          <p style={{ fontSize: 9.5, lineHeight: 1.65, color: "#444", marginBottom: 10 }}>{banya.description}</p>
+
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 12 }}>
+            <div>
+              <div style={{ fontSize: 8, letterSpacing: 2, textTransform: "uppercase", color: "#888", marginBottom: 5 }}>Интерьер</div>
+              <img
+                src="https://cdn.poehali.dev/projects/42eb0f8a-df19-4a74-b859-b251f6cb05ef/files/e8350372-abb4-4818-af57-c7b95e787207.jpg"
+                style={{ width: "100%", height: 90, objectFit: "cover", borderRadius: 2 }}
+                alt="Интерьер"
+              />
+            </div>
+            <div>
+              <div style={{ fontSize: 8, letterSpacing: 2, textTransform: "uppercase", color: "#888", marginBottom: 5 }}>Характеристики</div>
+              {[
+                ["Размер", banya.size],
+                ["Материал", isSuhoy ? "Брус сухой 150×100" : "Брус под усадку 150×100"],
+                ["Кровля", "Металлопрофиль МП20, 0.45мм"],
+                ["Печь", "Kennet Пропар 10, бак 50л"],
+                ["Фундамент", "Блоки бетонные (в стоимости)"],
+                ["Электрика", "Проводка, освещение, розетки"],
+              ].map(([k, v]) => (
+                <div key={k} style={{ display: "flex", justifyContent: "space-between", borderBottom: "1px solid #f0ebe3", padding: "3.5px 0", fontSize: 8 }}>
+                  <span style={{ color: "#888" }}>{k}</span>
+                  <span style={{ color: "#1a1a1a", fontWeight: 500, textAlign: "right", maxWidth: "55%" }}>{v}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Blueprint placeholder */}
         <div style={{
-          position: "absolute", bottom: 8, left: 14,
-          background: "#C9A96E", color: "#1a1a1a",
-          fontSize: 10, fontWeight: 700, padding: "3px 10px", letterSpacing: 1
+          border: "1.5px dashed #C9A96E",
+          borderRadius: 3,
+          height: 112,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          background: "#fdf9f4",
+          marginBottom: 10,
         }}>
-          РАЗМЕР: {banya.size}
+          <div style={{ fontSize: 9, letterSpacing: 3, textTransform: "uppercase", color: "#C9A96E", marginBottom: 5 }}>Место для чертежа</div>
+          <div style={{ fontSize: 8, color: "#bbb" }}>Планировка · Баня {banya.size}</div>
         </div>
+
+        {/* Price bar */}
+        <div style={{ background: "#f8f6f2", padding: "9px 14px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <div>
+            <div style={{ fontSize: 7.5, color: "#888", textTransform: "uppercase", letterSpacing: 1 }}>Стоимость</div>
+            <div style={{ fontFamily: "'Cormorant', 'Georgia', serif", fontSize: 17, fontWeight: 700, color: "#2a2a2a" }}>По запросу</div>
+          </div>
+          <div style={{ fontSize: 8.5, color: "#444" }}>
+            Звоните: <span style={{ color: "#C9A96E", fontWeight: 700 }}>+7 (800) 000-00-00</span>
+          </div>
+        </div>
+
+        <PageFooter />
       </div>
 
-      {/* Description */}
-      <div style={{ marginTop: 10, padding: "0 2mm" }}>
-        <p style={{ fontSize: 10, lineHeight: 1.65, color: "#444", marginBottom: 12 }}>{banya.description}</p>
-
-        {/* 2 column: interior photo + specs */}
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 12 }}>
+      {/* ── Страница 2: Комплектация + Дополнения ── */}
+      <div style={PAGE_STYLE}>
+        {/* Header */}
+        <div style={{ background: "#2a2a2a", margin: "-14mm -14mm 0 -14mm", padding: "7mm 14mm 7mm", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <div>
-            <div style={{ fontSize: 8.5, letterSpacing: 2, textTransform: "uppercase", color: "#888", marginBottom: 6 }}>Интерьер</div>
-            <img
-              src="https://cdn.poehali.dev/projects/42eb0f8a-df19-4a74-b859-b251f6cb05ef/files/e8350372-abb4-4818-af57-c7b95e787207.jpg"
-              style={{ width: "100%", height: 95, objectFit: "cover", borderRadius: 2 }}
-              alt="Интерьер"
-            />
+            <div style={{ fontSize: 8, letterSpacing: 3, color: "#C9A96E", textTransform: "uppercase", marginBottom: 3 }}>{section}</div>
+            <div style={{ fontFamily: "'Cormorant', 'Georgia', serif", fontSize: 24, fontWeight: 600, color: "#fff" }}>
+              Баня {banya.size} — комплектация
+            </div>
           </div>
+          <div style={{ textAlign: "right" }}>
+            <div style={{ fontSize: 8, color: "#aaa", marginBottom: 2 }}>Стр.</div>
+            <div style={{ fontSize: 22, fontWeight: 700, color: "#C9A96E" }}>{String(pageNum + 0.5).replace(".", ",")}</div>
+          </div>
+        </div>
+
+        <div style={{ marginTop: 14, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
+          {/* Комплектация */}
           <div>
-            <div style={{ fontSize: 8.5, letterSpacing: 2, textTransform: "uppercase", color: "#888", marginBottom: 6 }}>Характеристики</div>
-            {[
-              ["Размер", banya.size],
-              ["Материал", section.includes("сухого") ? "Брус сухой 150×100" : "Брус под усадку 150×100"],
-              ["Кровля", "Металлопрофиль МП20"],
-              ["Печь", "Kennet Пропар 10"],
-              ["Фундамент", "Блоки бетонные"],
-            ].map(([k, v]) => (
-              <div key={k} style={{ display: "flex", justifyContent: "space-between", borderBottom: "1px solid #f0ebe3", padding: "4px 0", fontSize: 8.5 }}>
-                <span style={{ color: "#888" }}>{k}</span>
-                <span style={{ color: "#1a1a1a", fontWeight: 500 }}>{v}</span>
+            <div style={{ background: "#3a3a3a", color: "#fff", fontSize: 12, fontWeight: 700, padding: "7px 12px", marginBottom: 10, textAlign: "center", letterSpacing: 0.5 }}>
+              Комплектация:
+            </div>
+            {complect.map((item, i) => (
+              <div key={i} style={{ display: "flex", gap: 6, fontSize: 8.5, lineHeight: 1.6, marginBottom: 6, color: "#222" }}>
+                <span style={{ color: "#C9A96E", fontWeight: 700, flexShrink: 0, marginTop: 1 }}>•</span>
+                <span>{item}</span>
               </div>
             ))}
           </div>
-        </div>
-      </div>
 
-      {/* Blueprint placeholder */}
-      <div style={{
-        border: "1.5px dashed #C9A96E",
-        borderRadius: 3,
-        height: 105,
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        background: "#fdf9f4",
-        margin: "0 0 10px",
-      }}>
-        <div style={{ fontSize: 9, letterSpacing: 3, textTransform: "uppercase", color: "#C9A96E", marginBottom: 6 }}>
-          ⬜ Место для чертежа
-        </div>
-        <div style={{ fontSize: 8, color: "#bbb" }}>Планировка · Баня {banya.size}</div>
-      </div>
+          {/* Дополнения */}
+          <div>
+            <div style={{ background: "#3a3a3a", color: "#fff", fontSize: 12, fontWeight: 700, padding: "7px 12px", marginBottom: 10, textAlign: "center", letterSpacing: 0.5 }}>
+              Можно дополнить баню:
+            </div>
+            {dopoln.map((item, i) => (
+              <div key={i} style={{ display: "flex", gap: 6, fontSize: 8.5, lineHeight: 1.6, marginBottom: 6, color: "#222" }}>
+                <span style={{ color: "#C9A96E", fontWeight: 700, flexShrink: 0, marginTop: 1 }}>•</span>
+                <span>{item}</span>
+              </div>
+            ))}
 
-      {/* Price CTA */}
-      <div style={{ background: "#f8f6f2", padding: "10px 14px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-        <div>
-          <div style={{ fontSize: 8, color: "#888", textTransform: "uppercase", letterSpacing: 1 }}>Стоимость</div>
-          <div style={{ fontFamily: "'Cormorant', 'Georgia', serif", fontSize: 18, fontWeight: 700, color: "#2a2a2a" }}>По запросу</div>
+            {/* Отделка фото */}
+            <div style={{ marginTop: 14 }}>
+              <div style={{ fontSize: 8, letterSpacing: 2, textTransform: "uppercase", color: "#888", marginBottom: 6 }}>Пример отделки</div>
+              <img
+                src="https://cdn.poehali.dev/projects/42eb0f8a-df19-4a74-b859-b251f6cb05ef/bucket/be112094-2b3c-4087-a427-e809ef2542e2.png"
+                style={{ width: "100%", height: 115, objectFit: "cover", borderRadius: 2 }}
+                alt="Отделка"
+              />
+            </div>
+          </div>
         </div>
-        <div style={{ fontSize: 8.5, color: "#444" }}>
-          Звоните: <span style={{ color: "#C9A96E", fontWeight: 700 }}>+7 (800) 000-00-00</span>
-        </div>
-      </div>
 
-      {/* Footer */}
-      <div style={{ position: "absolute", bottom: 10, left: 14, right: 14, borderTop: "1px solid #e0d8cc", paddingTop: 8, display: "flex", justifyContent: "space-between", fontSize: 8.5, color: "#999" }}>
-        <span>БаняПро — Строительство бань под ключ</span>
-        <span>info@banyapro.ru</span>
+        {/* Bottom note */}
+        <div style={{ marginTop: "auto", paddingTop: 14, borderTop: "1px solid #e8e2d9" }}>
+          <div style={{ background: "#f8f6f2", padding: "10px 16px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <div style={{ fontSize: 9, color: "#666", fontStyle: "italic" }}>
+              Комплектация может быть скорректирована по желанию заказчика.
+            </div>
+            <div style={{ fontSize: 8.5, color: "#C9A96E", fontWeight: 700 }}>+7 (800) 000-00-00</div>
+          </div>
+        </div>
+
+        <PageFooter />
       </div>
-    </div>
+    </>
   );
 }
 
@@ -588,6 +661,8 @@ export default function Catalog() {
             section="Раздел I — Сухой профилированный брус"
             pageNum={i + 4}
             srcImg={SUHOY_SRC}
+            complect={COMPLECT_SUHOY}
+            dopoln={DOPOLN_SUHOY}
           />
         ))}
 
@@ -605,6 +680,8 @@ export default function Catalog() {
             section="Раздел II — Брус под усадку"
             pageNum={i + 10}
             srcImg={USADKA_SRC_1}
+            complect={COMPLECT_USADKA}
+            dopoln={DOPOLN_USADKA}
           />
         ))}
         {USADKA_BANI_2.map((b, i) => (
@@ -614,6 +691,8 @@ export default function Catalog() {
             section="Раздел II — Брус под усадку"
             pageNum={i + 16}
             srcImg={USADKA_SRC_2}
+            complect={COMPLECT_USADKA}
+            dopoln={DOPOLN_USADKA}
           />
         ))}
 
